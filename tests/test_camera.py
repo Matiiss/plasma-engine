@@ -1,10 +1,10 @@
 import pygame
 import pytest
 
-from src.plasma.camera import Camera2D
+from plasma.camera import Camera2D
 
 
-def get_default_camera2d():
+def get_default_camera2d() -> Camera2D:
     return Camera2D((0, 0), (640, 360))
 
 
