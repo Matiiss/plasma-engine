@@ -40,5 +40,20 @@ class Camera2D:
         if freedom_box is not None:
             if freedom_box.collidepoint(target - self.pos):
                 return
+            else:
+                cam_x, cam_y = self.translate(target)
+                offset = pygame.Vector2(
+                    min([cam_x - freedom_box.right, cam_x - freedom_box.left], key=abs),  # noqa
+                    min([cam_y - freedom_box.bottom, cam_y - freedom_box.top], key=abs),  # noqa
+                )
+                self.pos = round(
+                    self.pos.lerp(
+                        pygame.Vector2(target) - self.viewport.center - offset,
+                        lerp_speed,
+                    )
+                )
+                return
 
-        self.pos = round(self.pos.lerp(target, lerp_speed))
+        self.pos = round(
+            self.pos.lerp(pygame.Vector2(target) - self.viewport.center, lerp_speed)
+        )
