@@ -5,7 +5,7 @@ from plasma.camera import Camera2D
 
 
 def get_default_camera2d():
-    return Camera2D()
+    return Camera2D((0, 0), (640, 360))
 
 
 class TestCamera2D:
