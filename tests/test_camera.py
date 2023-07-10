@@ -1,7 +1,7 @@
 import pygame
 import pytest
 
-from plasma.camera import Camera2D
+from src.plasma.camera import Camera2D
 
 
 def get_default_camera2d():
