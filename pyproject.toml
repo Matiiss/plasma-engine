@@ -20,6 +20,7 @@ dependencies = ["pygame-ce>=2.3.0"]
 
 [project.optional-dependencies]
 test = ["pytest==7.4.0"]
+dev = ["pytest==7.4.0", "black"]
 
 [project.urls]
 "Homepage" = "https://github.com/Matiiss/plasma-engine"
