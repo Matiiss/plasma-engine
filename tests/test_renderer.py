@@ -44,12 +44,12 @@ def get_test_stack() -> list[StackItem]:
 
 
 class TestRenderer:
-    def test_append_to_stack(self):
+    def test_stack_add(self):
         renderer = get_default_renderer()
         items = get_test_stack()
         for item in items:
             surf, rect, z_index = item
-            renderer.append_to_stack(surf, rect, z_index)
+            renderer.stack_add(surf, rect, z_index)
 
         # check the first tuple at layer 0
         assert len(renderer.stack[0][0]) == 2
@@ -71,7 +71,7 @@ class TestRenderer:
         items = get_test_stack()
         for item in items:
             surf, rect, z_index = item
-            renderer.append_to_stack(surf, rect, z_index)
+            renderer.stack_add(surf, rect, z_index)
 
         renderer.filter_viewport()
 
@@ -85,7 +85,7 @@ class TestRenderer:
         items = get_test_stack()
         for item in items:
             surf, rect_, z_index = item
-            renderer.append_to_stack(surf, rect_, z_index)
+            renderer.stack_add(surf, rect_, z_index)
 
         renderer.stack_sort(key=lambda rect: rect.topleft)
 
@@ -95,7 +95,7 @@ class TestRenderer:
                 key=lambda tpl: tpl[1].topleft,
             )
 
-    def test_render_stack(self):
+    def test_stack_render(self):
         renderer = get_default_renderer()
         items = get_test_stack()
         colors = itertools.cycle(["red", "green", "blue"])
@@ -103,14 +103,28 @@ class TestRenderer:
             surf, rect_, z_index = item
             if idx % 3 == 0:
                 surf.fill(next(colors))
-            renderer.append_to_stack(surf, rect_, z_index)
+            renderer.stack_add(surf, rect_, z_index)
+
+        renderer.stack_render()
+        for item in items:
+            assert renderer.get_at(item.rect.topleft) == item.surf.get_at((0, 0))
 
         renderer.filter_viewport()
         filtered_items = [
             item for item in items if item.rect.colliderect(renderer.viewport)
         ]
 
-        renderer.render_stack()
+        renderer.stack_render()
         for item in filtered_items:
             assert renderer.get_at(item.rect.topleft) == item.surf.get_at((0, 0))
 
+    def test_stack_clear(self):
+        renderer = get_default_renderer()
+        items = get_test_stack()
+        for item in items:
+            surf, rect_, z_index = item
+            renderer.stack_add(surf, rect_, z_index)
+
+        assert len(renderer.stack) != 0
+        renderer.stack_clear()
+        assert len(renderer.stack) == 0
