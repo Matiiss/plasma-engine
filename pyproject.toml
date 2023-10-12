@@ -16,6 +16,10 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+dependencies = ["pygame-ce>=2.3.0"]
+
+[project.optional-dependencies]
+test = ["pytest==7.4.0"]
 
 [project.urls]
 "Homepage" = "https://github.com/Matiiss/plasma-engine"
